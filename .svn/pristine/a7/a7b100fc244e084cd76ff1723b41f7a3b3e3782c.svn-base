@@ -1,0 +1,13 @@
+package com.csumb.viewer;
+
+public class DisplayInfo {
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

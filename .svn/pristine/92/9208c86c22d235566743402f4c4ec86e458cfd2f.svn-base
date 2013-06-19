@@ -1,0 +1,52 @@
+package com.csumb.viewer;
+
+import android.app.ActionBar.LayoutParams;
+import android.app.Fragment;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+public class AdverCellFrag extends Fragment {
+
+	/**
+	 * @param args
+	 */
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) 
+	{
+	    View fragview =  inflater.inflate(R.layout.displayinfo, container, false);
+
+	    // sets up the rose image that serves as a compass in the GUI
+	    LinearLayout linearlay = (LinearLayout) fragview.findViewById(R.id.fragment_container);
+	    
+	    
+	    
+	    return fragview;
+	}
+	
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) 
+	{
+	    super.onActivityCreated(savedInstanceState);
+	    getActivity().setContentView(R.layout.displayinfo);
+
+	    TextView ATT = (TextView)(getView().findViewById(R.id.ATT));	   
+	    ATT.setText("ATT");
+	    
+	    TextView ver = (TextView)(getView().findViewById(R.id.ATT));
+	    ver.setText("Verizion");
+
+	    TextView sp = (TextView)(getView().findViewById(R.id.ATT));	
+	    sp.setText("Sprint");
+
+	    TextView tm = (TextView)(getView().findViewById(R.id.ATT));	
+	    tm.setText("T-Mobile");
+
+
+	}
+
+
+}

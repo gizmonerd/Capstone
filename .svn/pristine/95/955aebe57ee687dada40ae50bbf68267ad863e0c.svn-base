@@ -1,0 +1,7 @@
+package com.csumb.viewer;
+
+public class SpatialReference {
+	
+	public String wkid;
+
+}

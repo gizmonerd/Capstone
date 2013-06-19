@@ -1,0 +1,122 @@
+package com.csumb.viewer;
+
+import java.util.concurrent.ExecutionException;
+
+import android.app.ActionBar;
+import android.app.ActionBar.Tab;
+import android.app.ActionBar.TabListener;
+import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.Toast;
+
+
+import com.csumb.viewer.Response.Candidates;
+
+public class DisplayInfo extends Activity {
+	
+	public static Data data;
+	public static Context appContext;
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+			setContentView(R.layout.displayinfo);
+			
+
+			//ActionBar gets initiated
+			ActionBar actionbar = getActionBar();
+			//Tell the ActionBar we want to use Tabs.
+			actionbar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+			//initiating both tabs and set text to it.
+			ActionBar.Tab fieldCellDataTab = actionbar.newTab().setText("Projected wireless");
+			ActionBar.Tab adverCellDataTab = actionbar.newTab().setText("Advertised wireless");
+			ActionBar.Tab wiredDataTab = actionbar.newTab().setText("Wired");
+			ActionBar.Tab satDataTab = actionbar.newTab().setText("Sat");
+			
+			Fragment fieldCellDataFragment = new FieldCellFrag();
+			Fragment adverCellDataFragment = new AdverCellFrag();
+	        Fragment wiredDataTabFragment = new WiredFrag();
+	        Fragment satDataFragment = new satDataFrag();
+
+	        fieldCellDataTab.setTabListener(new MyTabsListener(fieldCellDataFragment));
+	        adverCellDataTab.setTabListener(new MyTabsListener(adverCellDataFragment));
+	        wiredDataTab.setTabListener(new MyTabsListener(adverCellDataFragment));
+	        satDataTab.setTabListener(new MyTabsListener(adverCellDataFragment));
+	        
+	        actionbar.addTab(fieldCellDataTab);
+	        actionbar.addTab(adverCellDataTab);
+	        actionbar.addTab(wiredDataTab);
+	        actionbar.addTab(satDataTab);
+
+		}
+	
+
+	@Override
+	public void onStart()
+	{
+		appContext = getApplicationContext();
+		
+		Intent myIntent= getIntent(); // gets the previously created intent
+		double x = myIntent.getDoubleExtra("x",0); // will return "x"
+		double y = myIntent.getDoubleExtra("y", 0); // will return "y"
+		int spatial= myIntent.getIntExtra("spatial", 0); // will return "spatial"
+		
+		try {
+			data=getData(x,y,spatial, appContext);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		super.onStart();
+	}
+	
+	public Data getData(double x, double y, int spatial, Context appcontext) throws InterruptedException, ExecutionException
+	{
+
+		System.out.println(x+" "+y+" "+spatial);
+		String URL = "http://132.241.99.43/ArcGIS/rest/services/CPUC/ALL_AVAILABILITY_RD6/MapServer/0/query?text=&geometry=" +
+				x+"%2C"+y+"&geometryType=esriGeometryPoint&inSR="+spatial+"&spatialRel=esriSpatialRelIntersects&" +
+				"relationParam=&objectIds=&where=&time=&returnCountOnly=false&returnIdsOnly=false&returnGeometry=false&maxAllowable" +
+				"Offset=&outSR=&outFields=*&f=pjson";
+		
+		Data Datas;
+		Datas=new DataResponse(DisplayInfo.this).execute(URL).get();
+		return Datas;
+		
+	}
+	
+	
+	class MyTabsListener implements ActionBar.TabListener {
+		public Fragment fragment;
+
+		public MyTabsListener(Fragment fragment) {
+			this.fragment = fragment;
+		}
+
+		@Override
+		public void onTabReselected(Tab tab, FragmentTransaction ft) {
+			Toast.makeText(DisplayInfo.appContext, "Reselected!", Toast.LENGTH_LONG).show();
+		}
+
+		@Override
+		public void onTabSelected(Tab tab, FragmentTransaction ft) {
+			ft.replace(R.id.fragment_container, fragment);
+		}
+
+		@Override
+		public void onTabUnselected(Tab tab, FragmentTransaction ft) {
+			ft.remove(fragment);
+		}
+	
+	
+
+}
+}

@@ -1,0 +1,14 @@
+package com.csumb.viewer;
+
+import java.util.ArrayList;
+import com.csumb.viewer.locData;
+
+public class Response {
+	
+	ArrayList<locData> data;
+	
+	public Response(){
+		data= new ArrayList<locData>();
+	}
+
+}

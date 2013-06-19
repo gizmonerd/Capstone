@@ -1,0 +1,9 @@
+package com.csumb.viewer;
+
+public class Attribute {
+		
+	public double dispLong;
+	
+	public double dispLat;
+
+}

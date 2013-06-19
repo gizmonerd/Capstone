@@ -1,0 +1,198 @@
+package com.csumb.viewer;
+
+//import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+//import java.net.HttpURLConnection;
+//import java.net.URL;
+
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.gson.Gson;
+import com.csumb.viewer.Response;
+import android.location.Location;
+import android.location.LocationManager;
+import android.os.Bundle;
+//import android.provider.Settings;
+import android.app.Activity;
+import android.content.Context;
+//import android.content.Intent;
+//import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
+//import android.view.Menu;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+//import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+//import org.apache.http.util.EntityUtils;
+//import org.json.JSONArray;
+//import org.json.JSONObject;
+
+public class MainActivity extends Activity {
+
+	private LocationManager lManager;
+	private Location location;
+	private double longitude;
+	private double latitude;
+	private Gson gson;
+	private Response response;
+	private GoogleMap mMap;
+
+	
+	MapFragment mMapFragment = MapFragment.newInstance();
+	 android.app.FragmentTransaction fragmentTransaction =
+	         getFragmentManager().beginTransaction();
+	
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+			setContentView(R.layout.main);
+			mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
+
+			 
+			
+			lManager= (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+			location=lManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+			
+			longitude=location.getLongitude();
+			latitude=location.getLatitude();
+			
+			//Location(latitude, longitude);
+			
+			fragmentTransaction.add(R.id.map, mMapFragment);
+			fragmentTransaction.commit();
+			//addLocations(response, mMap);
+			
+			
+			mMap.addMarker(new MarkerOptions()
+			        .position(new LatLng(0, 0))
+			        .title("Hello world"));
+
+	}
+	
+	private void addLocations(Response x, GoogleMap y){
+		
+		for(int i=0 ; x.data.size()<i;i++)
+		{
+				y.addMarker(new MarkerOptions()
+					.position(new LatLng(x.data.get(i).getLatitude(), x.data.get(i).getLongitude()))
+					.title("Point"+i));
+		}
+	}
+	
+	private void Location(double lat, double lon){
+		
+		gson=new Gson();
+		response=null;
+		response= new Response();
+		
+		
+		    try {
+			    String getURL = "http://itcd5.csumb.edu/~miriye/webapp-dbfix/php/query.php?latitude="+lat+"&longitude="+lon;
+			    //InputStream source= retrieveStream(getURL);
+			    //Reader reader= new InputStreamReader(source);
+
+			    HttpGet getRequest = new HttpGet(getURL);
+	    	
+	    		DefaultHttpClient httpClient = new DefaultHttpClient();
+	    		HttpResponse getResponse = httpClient.execute(getRequest);
+	    		final int statusCode = getResponse.getStatusLine().getStatusCode();
+	    			
+	   			if (statusCode != HttpStatus.SC_OK) { 
+	   	            Log.w(getClass().getSimpleName(), "Error " + statusCode + " for URL " + getURL); 
+	   	            return;
+	   	        }
+	   			
+	   			HttpEntity getResponseEntity = getResponse.getEntity();
+	    		InputStream httpResponseStream = getResponseEntity.getContent();
+	    		Reader inputStreamReader = new InputStreamReader(httpResponseStream);
+	    		
+			    response= gson.fromJson(inputStreamReader, Response.class);
+			    
+		} catch (Exception e) {
+		    e.printStackTrace();
+		}
+	}
+	
+	private void Location(String address){
+		
+		gson=new Gson();
+		response=null;
+		response= new Response();
+		
+		try {
+		    String getURL = "http://itcd5.csumb.edu/~miriye/webapp-dbfix/php/query.php?address="+address;
+		    //InputStream source= retrieveStream(getURL);
+		    //Reader reader= new InputStreamReader(source);
+
+		    HttpGet getRequest = new HttpGet(getURL);
+    	
+    		DefaultHttpClient httpClient = new DefaultHttpClient();
+    		HttpResponse getResponse = httpClient.execute(getRequest);
+    		final int statusCode = getResponse.getStatusLine().getStatusCode();
+    			
+   			if (statusCode != HttpStatus.SC_OK) { 
+   	            Log.w(getClass().getSimpleName(), "Error " + statusCode + " for URL " + getURL); 
+   	            return;
+   	        }
+   			
+   			HttpEntity getResponseEntity = getResponse.getEntity();
+    		InputStream httpResponseStream = getResponseEntity.getContent();
+    		Reader inputStreamReader = new InputStreamReader(httpResponseStream);
+    		
+		    response= gson.fromJson(inputStreamReader, Response.class);
+		} catch (Exception e) {
+		    e.printStackTrace();
+		}
+	}
+	
+}
+		
+
+	
+	/*private InputStream retrieveStream(String url) {
+		
+		  DefaultHttpClient client = new DefaultHttpClient();
+		  HttpGet getRequest = new HttpGet(url);
+		           
+		        try {
+
+		           HttpResponse getResponse = client.execute(getRequest);
+		           final int statusCode = getResponse.getStatusLine().getStatusCode();
+	
+		           if (statusCode != HttpStatus.SC_OK) {
+		
+		        	   	   Log.w(getClass().getSimpleName(),
+		                  "Error " + statusCode + " for URL " + url);
+		        	   	   return null;
+		           }
+
+		           HttpEntity getResponseEntity = getResponse.getEntity();
+		           return getResponseEntity.getContent();		
+		        }
+		        catch (IOException e) {
+		
+		        	getRequest.abort();
+		        	Log.w(getClass().getSimpleName(), "Error for URL " + url, e);
+		        	}
+		        return null;
+		     }
+
+
+	/*@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.main, menu);
+		return true;
+	}*/
+	
+

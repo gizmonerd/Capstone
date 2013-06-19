@@ -1,0 +1,74 @@
+package com.csumb.viewer;
+
+public class locData {
+	
+
+		float clientLatitude;
+		float clientLongitude;
+		float latitude;
+		float longitude;
+		String carrier; 
+		float round5;
+		float rtt;
+		float upSpeed;
+		float downSpeed;
+	
+		public locData()
+		{
+			clientLatitude=0;
+			clientLongitude=0;
+			latitude=0;
+			longitude=0;
+			carrier= null; 
+			round5=0;
+			rtt=0;
+			upSpeed=0;
+			downSpeed=0;
+		}
+		
+		public String getCarrier()
+		{
+			return this.carrier;
+		}
+		
+		public float getUpspeed()
+		{
+			return this.upSpeed;
+		}
+		
+		public float getDownspeed()
+		{
+			return this.downSpeed;
+		}
+		
+		public float getLatitude()
+		{
+			return this.latitude;
+		}
+		
+		public float getLongitude()
+		{
+			return this.longitude;
+		}
+		
+		public float getRtt()
+		{
+			return this.rtt;
+		}
+
+		public float getRound5()
+		{
+			return this.round5;
+		}
+		
+		public float getClientlatitude()
+		{
+			return this.clientLatitude;
+		}
+		
+		public float getClientlongitude()
+		{
+			return this.clientLongitude;
+		}
+
+}

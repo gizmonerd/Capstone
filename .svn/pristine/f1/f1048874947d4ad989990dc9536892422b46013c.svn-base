@@ -1,0 +1,10 @@
+package com.csumb.viewer;
+
+import java.util.*;
+
+public class Response {
+	
+	SpatialReference spatial;
+	
+	public List<Candidates> candidate;
+}

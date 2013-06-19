@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Viewer</string>
+    <string name="cancel">cancel</string>
+    <string name="search">search</string>
+    <string name="addressSearch">Enter Address Here or click on a point on map</string>
+    <string name="menu_search"></string>
+    <string name="att"></string>
+    <string name="sprint"></string>
+    <string name="verizion"></string>
+    <string name="viewaddress">nothing</string>
+    
+    
+    
+   
+    
+
+</resources>

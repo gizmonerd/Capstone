@@ -1,0 +1,71 @@
+package com.csumb.viewer;
+
+import java.util.List;
+import com.google.gson.annotations.SerializedName;
+
+public class Data{
+	
+	public Data()
+	{}
+	
+	public List<features> features;
+	
+	public static class displayFieldName
+	{
+		public displayFieldName()
+		{}
+		
+	}
+	public static class fieldAliases
+	{
+		public fieldAliases()
+		{}
+	}
+	public static class fields
+	{
+		public fields()
+		{}
+		
+	}
+	public static class features
+	{
+		public features()
+		{}
+		
+		attributes attributes;
+	}
+	public static class attributes
+	{
+		public attributes()
+		{}
+		
+		 @SerializedName("OBJECTID")
+		 int objectID;
+		 @SerializedName("DBANAME")
+		 String dbANAME;
+		 @SerializedName("TRANSTECH")
+		 String transTECH;
+		 @SerializedName("MAXADOWN")
+		 int maxADDOWN;
+		 @SerializedName("MAXADUP")
+		 int maxADUP;
+		 @SerializedName("CONTACT")
+		 String contact;
+		 @SerializedName("ServiceTyp")
+		 String ServiceTyp;
+		 @SerializedName("XMax")
+		 double XMax;
+		 @SerializedName("Xmin")
+		 double XMin;
+		 @SerializedName("YMax")
+		 double YMax;
+		 @SerializedName("YMin")
+		 double YMin;
+	}
+	
+	
+	
+	
+	
+
+}

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Viewer</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_settings">Settings</string>
+    <string name="cancel">cancel</string>
+    <string name="search">search</string>
+    <string name="addressSearch">Enter Address Here</string>
+    <string name="popspinner">Enter Address Here</string>
+    
+
+</resources>

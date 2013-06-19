@@ -1,0 +1,14 @@
+package com.csumb.viewer;
+
+public class Candidates {
+	
+	public String address;
+	
+	Location location;
+	
+	public double score;
+	
+	Attribute attributes;
+
+	
+}
